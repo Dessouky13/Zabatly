@@ -4,10 +4,16 @@
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const RESEND_KEY = process.env.RESEND_API_KEY;
+const resend = RESEND_KEY ? new Resend(RESEND_KEY) : null;
 const FROM = process.env.EMAIL_FROM || 'Zabatly <hello@zabatly.com>';
 
+function emailDisabled(fn: string): void {
+  console.log(`[emailService] ${fn} skipped — RESEND_API_KEY not configured`);
+}
+
 export async function sendWelcomeEmail(to: string, name: string): Promise<void> {
+  if (!resend) { emailDisabled('sendWelcomeEmail'); return; }
   await resend.emails.send({
     from: FROM,
     to,
@@ -38,6 +44,7 @@ export async function sendWelcomeEmail(to: string, name: string): Promise<void> 
 }
 
 export async function sendPasswordResetEmail(to: string, name: string, resetUrl: string): Promise<void> {
+  if (!resend) { emailDisabled('sendPasswordResetEmail'); return; }
   await resend.emails.send({
     from: FROM,
     to,
@@ -72,6 +79,7 @@ export async function sendPaymentConfirmationEmail(
   plan: string,
   amount: number
 ): Promise<void> {
+  if (!resend) { emailDisabled('sendPaymentConfirmationEmail'); return; }
   await resend.emails.send({
     from: FROM,
     to,
@@ -107,6 +115,7 @@ export async function sendSubscriptionExpiryWarning(
   expiresAt: string,
   daysLeft: number
 ): Promise<void> {
+  if (!resend) { emailDisabled('sendSubscriptionExpiryWarning'); return; }
   await resend.emails.send({
     from: FROM,
     to,
@@ -136,6 +145,7 @@ export async function sendManualReviewAlert(
   screenshotPath: string,
   ocrResult: object
 ): Promise<void> {
+  if (!resend) { emailDisabled('sendManualReviewAlert'); return; }
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@zabatly.com';
   await resend.emails.send({
     from: FROM,
