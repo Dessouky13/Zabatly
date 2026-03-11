@@ -11,7 +11,7 @@ import { useToast } from '@/src/components/Toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { cn } from '@/src/utils/cn';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 export default function Settings() {
   const { language, setLanguage, t } = useLanguage();

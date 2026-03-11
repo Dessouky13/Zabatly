@@ -17,7 +17,7 @@ import { useLanguage } from '@/src/context/LanguageContext';
 import { useAuth } from '@/src/context/AuthContext';
 import { useToast } from '@/src/components/Toast';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 const STYLE_OPTIONS = [
   { value: 'modern', labelEn: 'Modern', labelAr: 'عصري' },

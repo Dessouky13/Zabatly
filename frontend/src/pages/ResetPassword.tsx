@@ -7,7 +7,7 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 export default function ResetPassword() {
   const { t } = useLanguage();

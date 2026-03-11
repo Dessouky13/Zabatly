@@ -20,7 +20,7 @@ import { useAuth } from '@/src/context/AuthContext';
 import { useToast } from '@/src/components/Toast';
 import { useNavigate } from 'react-router-dom';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 const ROOM_MAP: Record<string, string> = {
   living: 'Living Room',

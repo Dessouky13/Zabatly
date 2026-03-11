@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 export default function ForgotPassword() {
   const { t, isRTL } = useLanguage();

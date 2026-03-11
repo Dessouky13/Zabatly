@@ -13,7 +13,7 @@ import { useAuth } from '@/src/context/AuthContext';
 import { useToast } from '@/src/components/Toast';
 import { cn } from '@/src/utils/cn';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 // Tool types for the editor toolbar
 type EditorTool = 'select' | 'text' | 'image' | 'shape';

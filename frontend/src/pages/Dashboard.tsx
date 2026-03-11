@@ -15,7 +15,7 @@ import { useLanguage } from '@/src/context/LanguageContext';
 import { useAuth } from '@/src/context/AuthContext';
 import { UsageBar } from '@/src/components/UsageBar';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 interface Board {
   id: string;

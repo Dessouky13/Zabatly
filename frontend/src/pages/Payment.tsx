@@ -12,7 +12,7 @@ import { LanguageToggle } from '@/src/components/LanguageToggle';
 import { useLanguage } from '@/src/context/LanguageContext';
 import { useAuth } from '@/src/context/AuthContext';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 type PaymentStatus = 'idle' | 'uploading' | 'verifying' | 'success' | 'error';
 
