@@ -15,7 +15,7 @@ const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 export default function Settings() {
   const { language, setLanguage, t } = useLanguage();
-  const { user, plan, token, logout, updateUser } = useAuth();
+  const { user, token, logout, updateUser, refreshUser } = useAuth();
   const { success, error: toastError } = useToast();
   const navigate = useNavigate();
   const isAr = language === 'ar';
@@ -23,8 +23,9 @@ export default function Settings() {
   const [name, setName] = useState(user?.name || '');
   const [saving, setSaving] = useState(false);
 
-  // Usage data fetched from API
+  // Usage data fetched fresh from API (not from stale JWT)
   const [usage, setUsage] = useState({
+    plan: 'free',
     boards_used: 0, boards_limit: 2,
     redesigns_used: 0, redesigns_limit: 1,
     expires_at: null as string | null,
@@ -36,7 +37,16 @@ export default function Settings() {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.ok ? r.json() : null)
-      .then((data) => { if (data) setUsage(data); })
+      .then((data) => {
+        if (data) setUsage({
+          plan: data.plan ?? 'free',
+          boards_used: data.boards?.used ?? 0,
+          boards_limit: data.boards?.limit ?? 2,
+          redesigns_used: data.redesigns?.used ?? 0,
+          redesigns_limit: data.redesigns?.limit ?? 1,
+          expires_at: data.expires_at ?? null,
+        });
+      })
       .catch(() => {});
   }, [token]);
 
@@ -85,7 +95,7 @@ export default function Settings() {
     free: isAr ? 'الخطة المجانية' : 'Free Plan',
     basic: isAr ? 'الخطة الأساسية' : 'Basic Plan',
     premium: isAr ? 'الخطة المميزة' : 'Premium Plan',
-  }[plan] || 'Free Plan';
+  }[usage.plan] || (isAr ? 'الخطة المجانية' : 'Free Plan');
 
   const avatarSrc = user?.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=C9704A&color=fff`;
 
@@ -194,7 +204,7 @@ export default function Settings() {
                     <span className="bg-emerald-50 text-emerald-600 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full border border-emerald-200">
                       {isAr ? 'نشط' : 'Active'}
                     </span>
-                    {plan !== 'premium' && (
+                    {usage.plan !== 'premium' && (
                       <Link to="/pricing">
                         <Button size="sm" className="rounded-xl gap-2">
                           {isAr ? 'ترقية' : 'Upgrade'}

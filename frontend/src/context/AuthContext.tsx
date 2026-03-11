@@ -18,6 +18,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   updateUser: (patch: Partial<AuthUser>) => void;
+  refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -79,8 +80,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser((prev) => (prev ? { ...prev, ...patch } : prev));
   }, []);
 
+  const refreshUser = useCallback(async () => {
+    const storedToken = localStorage.getItem('zabatly_token');
+    if (!storedToken) return;
+    try {
+      const res = await fetch(`${API_URL}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      });
+      if (res.ok) {
+        const data: { user: AuthUser; plan: string } = await res.json();
+        setUser(data.user);
+        setPlan(data.plan);
+      }
+    } catch {}
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ user, plan, token, isLoading, login, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, plan, token, isLoading, login, logout, updateUser, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

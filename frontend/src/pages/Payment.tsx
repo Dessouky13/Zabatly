@@ -29,7 +29,7 @@ const VODAFONE_PHONE = import.meta.env.VITE_VODAFONE_PHONE || '01XXXXXXXXX';
 
 export default function Payment() {
   const { t } = useLanguage();
-  const { token } = useAuth();
+  const { token, refreshUser } = useAuth();
   const [searchParams] = useSearchParams();
   const planKey = (searchParams.get('plan') || 'basic') as keyof typeof PLAN_DETAILS;
   const plan = PLAN_DETAILS[planKey] || PLAN_DETAILS.basic;
@@ -87,6 +87,7 @@ export default function Payment() {
 
       // 'pending' means OCR is processing / manual review — treat as success from UX perspective
       if (data.status === 'verified' || data.status === 'pending' || data.status === 'manual_review') {
+        if (data.status === 'verified') refreshUser().catch(() => {});
         setStatus('success');
       } else {
         setErrorMsg(data.reason || t('payment.failDesc'));
