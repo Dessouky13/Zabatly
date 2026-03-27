@@ -240,8 +240,8 @@ export default function LandingPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
-              { title: 'Modern Scandinavian', img: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&q=80&w=800' },
-              { title: 'Quiet Luxury / Japandi', img: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800' },
+              { title: 'Neo-Classical', img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800' },
+              { title: 'Japandi', img: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800' },
             ].map((item, idx) => (
               <div key={idx} className="relative overflow-hidden rounded-[2.5rem] group cursor-pointer">
                 <div className="aspect-video transition-transform duration-700 group-hover:scale-105">
